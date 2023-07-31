@@ -1,0 +1,46 @@
+DROP TABLE opinions;
+DROP TABLE statements;
+DROP TABLE users;
+
+CREATE TABLE users (
+id bigserial primary key,
+email_address text not null unique,
+username text not null,
+password_hash text not null 
+);
+
+CREATE TABLE statements (
+id bigserial primary key,
+creator_id bigint not null references users(id),
+content text not null unique
+);
+
+CREATE TABLE opinions (
+id bigserial primary key,
+user_id bigint not null references users(id),
+statement_id bigint not null references statements(id),
+value smallint not null
+);
+
+
+INSERT INTO users (email_address, username, password_hash)
+VALUES('glory@cox.net','Glory', 'lala'),
+('sunny@gmail.com', 'Sunny', 'lala'),
+('glop@gamil.com','Glop', 'lala');
+
+INSERT INTO statements (creator_id, content)
+VALUES(1, 'The US should decriminalize crack cocaine.'),
+(1, 'Babies are nutritious to eat'),
+(2, 'It is a waste of resources explore the Sea');
+
+INSERT INTO opinions (user_id, statement_id, value)
+VALUES(1, 1, 3),
+(1, 1, 5),
+(1, 2, 2),
+(2, 2, 5),
+(2, 1, 2);
+
+
+
+
+
